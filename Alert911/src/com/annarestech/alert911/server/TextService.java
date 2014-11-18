@@ -57,7 +57,7 @@ public class TextService {
 	public boolean textAllinZip(Location loc, String message)	{
 		try	{
 			 Message mess = messageFactory.create(params); 
-			 System.out.println(mess.getSid()); 
+			 System.out.println(mess.getSid());
 			 messageFactory.create(params);
 			 return true;
 		 } catch(Exception e)	{
@@ -66,11 +66,27 @@ public class TextService {
 		 }
 	}
 	
+	public boolean textAll(UserBase uB, String message)	{
+		for(int i = 0; i < uB.uBase.size(); i++)	{
+			User curr = uB.uBase.get(i);
+			textNum(curr.phoneNumber, message);
+		}
+		return true;
+
+	}
+	
+	public boolean newUser(String number)	{
+		String welcome = "Thank you for signing up, you will now be alerted";
+		return textNum(number, welcome);
+	}
+	
 	public boolean textNum(String number, String message)	{
 		try {
 			params.add(new BasicNameValuePair("To", number));
 			params.add(new BasicNameValuePair("Body", message));
 			Message m = messageFactory.create(params);
+			params.clear();
+			params.add(new BasicNameValuePair("From", fromNum));
 			return true;
 		} catch (TwilioRestException e) {
 			e.printStackTrace();
@@ -78,6 +94,7 @@ public class TextService {
 		}
 		
 	}
+	
 	
 	/**
 	 * 

@@ -32,7 +32,7 @@ public class Alert911 implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final GreetServiceAsync interfaceService = GWT
+	private final GreetServiceAsync greetService = GWT
 			.create(GreetService.class);
 
 	/**
@@ -46,9 +46,9 @@ public class Alert911 implements EntryPoint {
 		nameField.setText("Name");
 		phoneField.setText("Number without symbols or spaces");
 		zipcodeField.setText("Zip Code");
-		final Label disclaimerLabel = new Label();
+		//final Label disclaimerLabel = new Label();
 		final Label errorLabel = new Label();
-		disclaimerLabel.setText("The data made available here has been modified for use from its original source, which is the City of Seattle. Neither the City of Seattle nor the Office of the Chief Technology Officer (OCTO) makes any claims as to the completeness, timeliness, accuracy or content of any data contained in this application; makes any representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The data is subject to change as modifications and updates are complete. It is understood that the information contained in the web feed is being used at one's own risk.");
+		//disclaimerLabel.setText("The data made available here has been modified for use from its original source, which is the City of Seattle. Neither the City of Seattle nor the Office of the Chief Technology Officer (OCTO) makes any claims as to the completeness, timeliness, accuracy or content of any data contained in this application; makes any representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The data is subject to change as modifications and updates are complete. It is understood that the information contained in the web feed is being used at one's own risk.");
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
@@ -60,7 +60,7 @@ public class Alert911 implements EntryPoint {
 		RootPanel.get("zipcodeFieldContainer").add(zipcodeField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
-		RootPanel.get("disclaimerLabelContainer").add(disclaimerLabel);
+		//RootPanel.get("disclaimerLabelContainer").add(disclaimerLabel);
 
 		// Focus the cursor on the name field when the app loads
 		nameField.setFocus(true);
@@ -77,7 +77,7 @@ public class Alert911 implements EntryPoint {
 		final HTML serverResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
+		dialogVPanel.add(new HTML("<b>Sending details to the server:</b>"));
 		dialogVPanel.add(textToServerLabel);
 		dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
 		dialogVPanel.add(serverResponseLabel);
@@ -93,6 +93,9 @@ public class Alert911 implements EntryPoint {
 				sendButton.setFocus(true);
 			}
 		});
+		
+		
+	
 
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
@@ -134,7 +137,7 @@ public class Alert911 implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(nameToServer + ", "+ phoneToServer + ", " + zipToServer);
 				serverResponseLabel.setText("");
-				interfaceService.greetServer(nameToServer, phoneToServer, zipToServer,
+				greetService.greetServer(nameToServer, phoneToServer, zipToServer,
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -157,7 +160,11 @@ public class Alert911 implements EntryPoint {
 							}
 						});
 			}
+			
+			
+
 		}
+		
 
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
